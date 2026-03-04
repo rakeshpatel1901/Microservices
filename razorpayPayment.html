@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Payment Test</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+
+<h2>Test Payment</h2>
+
+<button id="payBtn">Pay Now</button>
+
+<script>
+
+document.getElementById("payBtn").onclick = async function () {
+    alert("Inside Payment");
+    // CHANGE THIS URL
+    const orderResponse = await fetch("http://localhost:8082/api/v1/orders/place-order/3/2", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        
+    });
+
+    const order = await orderResponse.json();
+    alert("Order Created: " + order.data.razorpayOrderId);
+    alert("Order Amount: " + order);
+    console.log("Order Response:", order);
+    var options = {
+
+        // CHANGE THIS
+        "key": "rzp_test_SMjUy4hztGtIAF",
+
+        "amount": order.data.amount,
+        "currency": "INR",
+        "name": "Rakesh Patel Mahalaxmi",
+        "description": "Product Payment",
+
+        "order_id": order.data.razorpayOrderId,
+
+        "handler": function (response){
+
+            alert("Payment Successful!");
+
+            console.log("Payment ID:", response.razorpay_payment_id);
+            console.log("Order ID:", response.razorpay_order_id);
+            console.log("Signature:", response.razorpay_signature);
+
+            // OPTIONAL: send payment details to backend
+            
+
+        },
+
+        "prefill": {
+            "name": "Test User",
+            "email": "test@example.com",
+            "contact": "9999999999"
+        },
+
+        "theme": {
+            "color": "#3399cc"
+        }
+
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+
+};
+
+</script>
+
+</body>
+</html>
