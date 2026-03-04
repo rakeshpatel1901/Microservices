@@ -1,0 +1,12 @@
+server:
+  port: PORT NUMBER HERE
+
+spring:
+  application:
+    name: GIVE YOUR SERVICE NAME EG- PRODUCT-SERVICE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
