@@ -1,0 +1,49 @@
+application.properties
+
+spring.cloud.stream.kafka.binder.brokers=localhost:9092
+
+spring.cloud.function.definition=orderPlacedNotification;registerNotification
+
+spring.cloud.stream.bindings.orderPlacedNotification-in-0.destination=order.created
+spring.cloud.stream.bindings.orderPlacedNotification-in-0.content-type=applicationjson
+spring.cloud.stream.bindings.orderPlacedNotification-in-0.group=${spring.application.name}
+
+spring.cloud.stream.bindings.orderPlacedNotification-out-0.destination=order.ack
+spring.cloud.stream.bindings.orderPlacedNotification-out-0.content-type=applicationjson
+spring.cloud.stream.bindings.orderPlacedNotification-out-0.group=${spring.application.name}
+
+
+spring.cloud.stream.bindings.registerNotification-in-0.destination=registered.user
+spring.cloud.stream.bindings.registerNotification-in-0.content-type=applicationjson
+spring.cloud.stream.bindings.registerNotification-in-0.group=${spring.application.name}
+
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=YOUR_EMAIL_ID
+spring.mail.password=YOUR_PASSWORD
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+twilio_sid=TWILIO_ACCOUNT_SID
+twilio_secret=TWILIO_ACCOUNT_SECRET
+
+
+
+application.yml
+
+spring:
+  application:
+    name: NOTIFICATION-SERVICE
+
+
+server:
+  port: 8087
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
